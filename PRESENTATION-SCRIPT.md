@@ -4,6 +4,10 @@
 
 Read aloud, not memorized. Conversational beats over scripted lines.
 
+**Pattern:** intros for video-heavy slides happen on the *previous* slide,
+so when you advance, the video can autoplay clean and you don't have to
+talk over its dialogue or vocals.
+
 ---
 
 ## Slide 1 — Title (25s)
@@ -24,41 +28,51 @@ Read aloud, not memorized. Conversational beats over scripted lines.
 > art — physical, sculptural, projection-based work.
 >
 > The slideshow on the left is a sampling of about a hundred things I've
-> made over the last two years across all six. Today I'll show you four."
+> made over the last two years across all six. Today I'll show you four.
+>
+> The first is For Pixi — an AI-animated short I made at the MIT AI
+> Filmmaking Hackathon."
 
-*(Land the categories quickly. Don't read each one — let the slide do that.)*
+*(Last sentence is the Pixi pre-narration. Then advance.)*
 
 ---
 
 ## Slide 3 — For Pixi (75s, hero, video plays with audio)
 
-**Cue video to play immediately on slide enter.**
+**Video autoplays on slide enter.**
 
-**0:00–0:15 — Voice over the intro frames:**
+The film has dialogue at the start and through the middle. The ending
+is empty — that's where your voice goes. **Don't talk over the dialogue.**
 
-> "This is For Pixi — an AI-animated short I made at the MIT AI Filmmaking
-> Hackathon last February. Three-day build, small team, won Best Character.
-> Since then it's screened at SXSW, Cinequest, Beijing International, and
-> was featured at CVPR."
+**0:00 – ~0:55 — Stay quiet. Let the dialogue + score play.**
 
-**0:15–0:60 — Stop talking. Let the film play with audio.**
+*(Audience hears the film's audio. You watch with them.)*
 
-**0:60–0:75 — Voice as it winds down:**
+**~0:55 – end — Voice over the empty tail as the film winds down:**
 
-> "I did creative direction and visual design on this. The thing that
-> might matter most to a room like this — I also composed the score using
-> AI MIDI tools. Treating the model as a compositional collaborator, not a
-> replacement. Happy to talk about that workflow with anyone after."
+> "Best Character at the Hackathon. Screened SXSW, Cinequest, Beijing
+> International, featured at CVPR. I did creative direction and visual
+> design — and I composed the score using AI MIDI tools. Treating the
+> model as a compositional collaborator, not a replacement. Happy to talk
+> about that workflow with anyone after.
+>
+> Next is my own song — Model, from my album Stem. I wrote it, produced
+> it, directed the video, and built the projected visual system. Three
+> roles in one piece."
+
+*(Last paragraph is the Model pre-narration. Advance as you finish.)*
 
 ---
 
-## Slide 4 — Model (30s, video plays muted)
+## Slide 4 — Model (20–25s, video plays with audio, no narration)
 
-> "This is Model. It's a song from my own album, *Stem*. It's also the
-> music video — I wrote the song, produced the track, directed the video,
-> and built the system you see behind me. Real-time motion-tracking driving
-> projected visuals. So three roles in one piece — songwriter, producer,
-> creative technologist."
+**Video autoplays on slide enter. Vocals carry — you don't speak over them.**
+
+*(Stand still. Watch. Let the song land. The audience already knows the
+project name and your three roles from the Pixi tail. This is the
+"showing the work" beat.)*
+
+*(When the clip wraps or you hit ~25s, advance.)*
 
 ---
 
@@ -108,6 +122,8 @@ Read aloud, not memorized. Conversational beats over scripted lines.
 ## Pacing notes
 
 - **Pixi is the load-bearing slide.** Don't rush the silent middle.
+- **Pre-narrate Pixi at the end of "What I do." Pre-narrate Model at the end of Pixi.** That's how you keep autoplay clean and avoid talking over dialogue/vocals.
+- **Model is a silent watch on your end.** 20–25 seconds of "watching the song with the audience" is normal music-video pacing — resist the urge to fill the silence.
 - **Don't read what's already on screen.** Captions and titles do that work.
 - **Hands are quiet.** No clicker fidgeting, no pacing.
 - **The Google line lands stronger if you say it once, near the end, not earlier.** Resist the urge to reveal it during Slide 1.
