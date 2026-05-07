@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import type { DesignSystem, Page, SlideMeta } from '@open-slide/core';
 
 import aboutMontage from './assets/about-montage.mp4';
@@ -134,8 +135,39 @@ const caption = {
   margin: 0,
 } as const;
 
+// Plays only while its slide is in the viewport. The framework keeps every
+// page mounted; without this, every video (and its audio) plays on page
+// load. IntersectionObserver pauses + resets when the slide scrolls out of
+// view and replays from start when it comes back.
+type ActiveVideoProps = React.VideoHTMLAttributes<HTMLVideoElement> & { src: string };
+const ActiveVideo = ({ src, ...rest }: ActiveVideoProps) => {
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            el.play().catch(() => {
+              /* autoplay-with-sound blocked; presenter clicks slide to start */
+            });
+          } else {
+            el.pause();
+            el.currentTime = 0;
+          }
+        }
+      },
+      { threshold: 0.4 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return <video ref={ref} src={src} {...rest} />;
+};
+
 // Black panel placeholder for media slots — zero chrome, label bottom-left.
-// When a real asset is added, replace with <video src={...} ... />.
+// When a real asset is added, replace with <ActiveVideo src={...} ... />.
 const VideoSlot = ({ label, hint }: { label: string; hint: string }) => (
   <div
     style={{
@@ -291,9 +323,8 @@ const WhatIDo: Page = () => {
             overflow: 'hidden',
           }}
         >
-          <video
+          <ActiveVideo
             src={hearts}
-            autoPlay
             muted
             loop
             playsInline
@@ -401,9 +432,8 @@ const Pixi: Page = () => {
           background: '#0c0c0c',
         }}
       >
-        <video
+        <ActiveVideo
           src={pixi}
-          autoPlay
           playsInline
           style={{
             width: '100%',
@@ -577,12 +607,10 @@ const Model: Page = () => {
           overflow: 'hidden',
         }}
       >
-        <video
+        <ActiveVideo
           src={model}
-          autoPlay
           loop
           playsInline
-          controls
           style={{
             width: '100%',
             height: '100%',
@@ -724,9 +752,8 @@ const ParentAndChild: Page = () => {
           background: '#0c0c0c',
         }}
       >
-        <video
+        <ActiveVideo
           src={parentAndChildVideo}
-          autoPlay
           muted
           loop
           playsInline
@@ -751,9 +778,8 @@ const Orion: Page = () => (
         overflow: 'hidden',
       }}
     >
-      <video
+      <ActiveVideo
         src={orion}
-        autoPlay
         muted
         loop
         playsInline
@@ -888,23 +914,23 @@ const SelectedWork: Page = () => {
         }}
       >
         <div style={tile}>
-          <video src={aboutMontage} autoPlay muted loop playsInline style={cover} />
+          <ActiveVideo src={aboutMontage} muted loop playsInline style={cover} />
           <div style={tileLabel}>Hearts · Music Video</div>
         </div>
         <div style={tile}>
-          <video src={fogerty} autoPlay muted loop playsInline style={cover} />
+          <ActiveVideo src={fogerty} muted loop playsInline style={cover} />
           <div style={tileLabel}>John Fogerty Tour Open · Radio City</div>
         </div>
         <div style={{ ...tile, gridRow: 'span 2' }}>
-          <video src={eataly} autoPlay muted loop playsInline style={cover} />
+          <ActiveVideo src={eataly} muted loop playsInline style={cover} />
           <div style={tileLabel}>Eataly & Lurisia · Social Content</div>
         </div>
         <div style={tile}>
-          <video src={kiss} autoPlay muted loop playsInline style={cover} />
+          <ActiveVideo src={kiss} muted loop playsInline style={cover} />
           <div style={tileLabel}>Kiss · Gabby Start</div>
         </div>
         <div style={tile}>
-          <video src={sso} autoPlay muted loop playsInline style={cover} />
+          <ActiveVideo src={sso} muted loop playsInline style={cover} />
           <div style={tileLabel}>Super Special Outing Promo · Ella Woolsey</div>
         </div>
       </div>
