@@ -1,5 +1,5 @@
 {
-  "buildCommand": "git lfs pull && npm run build",
+  "buildCommand": "curl -sL https://github.com/git-lfs/git-lfs/releases/download/v3.7.1/git-lfs-linux-amd64-v3.7.1.tar.gz | tar -xz && export PATH=$PWD/git-lfs-3.7.1:$PATH && git lfs install --local && git lfs pull && npm run build",
   "outputDirectory": "dist",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
