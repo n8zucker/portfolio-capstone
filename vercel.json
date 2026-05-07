@@ -1,6 +1,5 @@
 {
-  "installCommand": "git lfs install && git lfs pull && npm install",
-  "buildCommand": "npm run build",
+  "buildCommand": "git lfs pull && npm run build",
   "outputDirectory": "dist",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
