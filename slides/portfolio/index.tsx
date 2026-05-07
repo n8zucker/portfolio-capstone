@@ -135,10 +135,14 @@ const caption = {
   margin: 0,
 } as const;
 
-// Plays only while its slide is in the viewport. The framework keeps every
-// page mounted; without this, every video (and its audio) plays on page
-// load. IntersectionObserver pauses + resets when the slide scrolls out of
-// view and replays from start when it comes back.
+// Plays only while its slide is the *active* one. The framework renders
+// every page (and a tiny thumbnail of each in the sidebar rail); without
+// gating, every video — including thumbnail copies — would fire on load.
+// We use IntersectionObserver + a size threshold: the video plays only
+// when it's both in view AND rendered at slide-canvas scale (height >
+// MIN_ACTIVE_PX). Thumbnails are ~24-100px tall, so 200 cleanly excludes
+// them while accepting any reasonable canvas rendering.
+const MIN_ACTIVE_PX = 200;
 type ActiveVideoProps = React.VideoHTMLAttributes<HTMLVideoElement> & { src: string };
 const ActiveVideo = ({ src, ...rest }: ActiveVideoProps) => {
   const ref = useRef<HTMLVideoElement>(null);
@@ -148,7 +152,8 @@ const ActiveVideo = ({ src, ...rest }: ActiveVideoProps) => {
     const obs = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
+          const isActiveScale = entry.boundingClientRect.height > MIN_ACTIVE_PX;
+          if (entry.isIntersecting && isActiveScale) {
             el.play().catch(() => {
               /* autoplay-with-sound blocked; presenter clicks slide to start */
             });
@@ -163,7 +168,7 @@ const ActiveVideo = ({ src, ...rest }: ActiveVideoProps) => {
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-  return <video ref={ref} src={src} {...rest} />;
+  return <video ref={ref} src={src} preload="auto" {...rest} />;
 };
 
 // Black panel placeholder for media slots — zero chrome, label bottom-left.
