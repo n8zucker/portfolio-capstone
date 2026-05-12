@@ -23,6 +23,7 @@ import titleHero from './assets/title-hero.avif';
 import orionRoute from './assets/orion-route.webp';
 import orionMap from './assets/orion-map.webp';
 import orionHome from './assets/orion-home.webp';
+import laurel from './assets/laurel.avif';
 
 // Söhne — single-typeface system (display + body), three weights.
 import sohneRegularUrl from './assets/fonts/Sohne-Regular.otf';
@@ -256,139 +257,116 @@ const Title: Page = () => (
       }}
     >
       <span>NYU Tisch · Recorded Music</span>
-      <span>Portfolio</span>
-      <span>Spring 2026 · New York</span>
+      <span>{''}</span>
+      <span>Spring 2026</span>
     </div>
   </div>
 );
 
 // ─── Page 2 — What I do ──────────────────────────────────────────────────────
-// Title top-left. Grid (2 cols × 3 rows) holds the 6 categorical cards on the
-// left. Right column holds the hearts.mp4 slideshow as a tall feature panel
-// — visual evidence of the categories, anchored top-right edge-to-edge.
-const WhatIDo: Page = () => {
-  const tiles = [
-    {
-      title: 'Product & UX Design',
-      body: 'App concepts, system architecture, interaction flows',
-    },
-    {
-      title: 'AI Creative Systems',
-      body: 'Generative workflows, prompt engineering, real-time systems',
-    },
-    {
-      title: 'Film & Video',
-      body: 'Music videos, short films, motion design, sound design',
-    },
-    {
-      title: 'Branding & Identity',
-      body: 'Design systems, visual language, environmental graphics',
-    },
-    {
-      title: 'Music Production',
-      body: 'Songwriting, sound design, live performance systems',
-    },
-    {
-      title: 'New Media Art',
-      body: 'Projection mapping, biosculpture, interactive installations',
-    },
-  ];
-  // Flex layout — explicit left/right zones, can't overlap:
-  //   Title row spans top.
-  //   Below title: flex row → left = 6-card 3×2 grid, right = 3:2 video.
-  //   Grid zone holds fixed width (1028px); video zone fills the rest.
-  //   Video stays at native 3:2 aspect via aspectRatio CSS.
-  return (
+// Title top-left. Grid (3 cols × 2 rows) of 6 category cards on the right.
+// Slideshow on the left. Each tile is its own JSX block so the literal
+// title + body strings are directly editable via the inspector workflow.
+const tileCellStyle = {
+  display: 'flex',
+  flexDirection: 'column' as const,
+  justifyContent: 'flex-start' as const,
+};
+const tileTitleStyle = {
+  fontSize: 32,
+  fontWeight: 600 as const,
+  letterSpacing: '-0.018em',
+  margin: 0,
+  fontFamily: 'var(--osd-font-display)',
+  fontStyle: 'normal' as const,
+};
+const tileBodyStyle = {
+  fontSize: 20,
+  color: muted,
+  marginTop: 10,
+  lineHeight: 1.45,
+  fontStyle: 'normal' as const,
+};
+
+const WhatIDo: Page = () => (
+  <div
+    style={{
+      ...fill,
+      padding: '88px 80px 60px',
+      boxSizing: 'border-box',
+      display: 'flex',
+      flexDirection: 'column',
+    }}
+  >
+    <h2 style={{ ...display, fontSize: 96 }}>What I do</h2>
+
     <div
       style={{
-        ...fill,
-        padding: '88px 80px 60px',
-        boxSizing: 'border-box',
+        marginTop: 48,
+        flex: 1,
         display: 'flex',
-        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 48,
+        minHeight: 0,
       }}
     >
-      <h2 style={{ ...display, fontSize: 96 }}>What I do</h2>
+      {/* Left — slideshow at native 3:2. */}
+      <div style={{ flex: '1', aspectRatio: '3 / 2', overflow: 'hidden' }}>
+        <ActiveVideo
+          src={hearts}
+          muted
+          loop
+          playsInline
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            background: '#0c0c0c',
+            backgroundColor: '#ffffff',
+          }}
+        />
+      </div>
 
+      {/* Right — 3×2 grid, same aspect ratio so bottom edges align. */}
       <div
         style={{
-          marginTop: 48,
-          flex: 1,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 48,
-          minHeight: 0,
+          flex: '1',
+          aspectRatio: '3 / 2',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gridTemplateRows: 'repeat(2, 1fr)',
+          gap: 24,
         }}
       >
-        {/* Left zone — slideshow at native 3:2. */}
-        <div
-          style={{
-            flex: '1',
-            aspectRatio: '3 / 2',
-            overflow: 'hidden',
-          }}
-        >
-          <ActiveVideo
-            src={hearts}
-            muted
-            loop
-            playsInline
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', background: '#0c0c0c', backgroundColor: '#ffffff' }}
-          />
+        <div style={tileCellStyle}>
+          <h3 style={tileTitleStyle}>Product &amp; UX Design</h3>
+          <p style={tileBodyStyle}>UI/UX, rapid prototyping, design systems, motion design</p>
         </div>
-
-        {/* Right zone — 3×2 grid. Same aspect ratio as video means same
-            height, so the bottom edges align. Cells distribute their content
-            evenly over the matched height. */}
-        <div
-          style={{
-            flex: '1',
-            aspectRatio: '3 / 2',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gridTemplateRows: 'repeat(2, 1fr)',
-            gap: 24,
-          }}
-        >
-          {tiles.map((t) => (
-            <div
-              key={t.title}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: 32,
-                  fontWeight: 600,
-                  letterSpacing: '-0.018em',
-                  margin: 0,
-                  fontFamily: 'var(--osd-font-display)',
-                  fontStyle: 'normal',
-                }}
-              >
-                {t.title}
-              </h3>
-              <p
-                style={{
-                  fontSize: 20,
-                  color: muted,
-                  marginTop: 10,
-                  lineHeight: 1.45,
-                  fontStyle: 'normal',
-                }}
-              >
-                {t.body}
-              </p>
-            </div>
-          ))}
+        <div style={tileCellStyle}>
+          <h3 style={tileTitleStyle}>AI Creative Systems</h3>
+          <p style={tileBodyStyle}>System design, harness engineering, creative agents</p>
+        </div>
+        <div style={tileCellStyle}>
+          <h3 style={tileTitleStyle}>Film &amp; Video</h3>
+          <p style={tileBodyStyle}>Direct, DP, edit, motion design, sound design; music videos, short films, social content</p>
+        </div>
+        <div style={tileCellStyle}>
+          <h3 style={tileTitleStyle}>Branding &amp; Identity</h3>
+          <p style={tileBodyStyle}>Graphic design,  commercial & environmental branding</p>
+        </div>
+        <div style={tileCellStyle}>
+          <h3 style={tileTitleStyle}>Music Production</h3>
+          <p style={tileBodyStyle}>Production, songwriting, mixing, sound design, teaching</p>
+        </div>
+        <div style={tileCellStyle}>
+          <h3 style={tileTitleStyle}>New Media Art</h3>
+          <p style={tileBodyStyle}>Interactive installation and immersive experiences</p>
         </div>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 // ─── Page 3 — Pixi (hero) ────────────────────────────────────────────────────
 // Cropped source is 1920×816 (~2.353:1, 21:9 cinemascope). Letterbox bars
@@ -409,9 +387,7 @@ const Pixi: Page = () => {
           style={{
             ...eyebrow,
           }}
-        >
-          AI short film · MIT AI Filmmaking Hackathon · 2025
-        </div>
+        >AI short film · MIT AI Filmmaking Hackathon</div>
         <div
           style={{
             display: 'flex',
@@ -421,7 +397,7 @@ const Pixi: Page = () => {
           }}
         >
           <h2 style={{ ...display, fontSize: 96 }}>For Pixi</h2>
-          <p style={{ ...caption, textAlign: 'right', whiteSpace: 'nowrap' }}>Creative direction · Visual design · AI as compositional collaborator</p>
+          <p style={{ ...caption, textAlign: 'right', whiteSpace: 'nowrap' }}>Creative director, visual designer, composer</p>
         </div>
       </div>
 
@@ -449,18 +425,35 @@ const Pixi: Page = () => {
         />
       </div>
 
-      {/* Festival / award strip below the video */}
+      {/* Festival / award strip — wrapper spans the full gap from video
+          bottom (y=968) to canvas bottom (y=1080); inner flex centers the
+          text vertically regardless of how many lines it wraps to. */}
       <div
         style={{
-          ...caption,
           position: 'absolute',
           left: colLeft,
           width: colWidth,
-          bottom: 30,
-          textAlign: 'center',
+          top: 968,
+          bottom: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        SXSW screening · MIT Best Character Award · Cinequest premiere · Beijing IFF · CVPR research · OpenArt &amp; JaguarBite sponsor awards
+        <div
+          style={{
+            ...caption,
+            color: '#26241f',
+            fontWeight: 400,
+            lineHeight: 1.6,
+            textAlign: 'center',
+            textWrap: 'balance' as const,
+          }}
+        >
+          MIT Best Character Award · SXSW screening · Cinequest Film Festival premiere · Beijing
+          IFF selection · Hong Kong AMC AI Film Festival award · CVPR research paper · Porter
+          Novelli Innovation Salon · OpenArt &amp; JaguarBite sponsor awards
+        </div>
       </div>
     </div>
   );
@@ -584,9 +577,7 @@ const Model: Page = () => {
           style={{
             ...eyebrow,
           }}
-        >
-          Music video · 2025
-        </div>
+        >Music video · Nate Zucker artist project</div>
         <div
           style={{
             display: 'flex',
@@ -597,7 +588,7 @@ const Model: Page = () => {
         >
           <h2 style={{ ...display, fontSize: 96 }}>Model</h2>
           <p style={{ ...caption, whiteSpace: 'nowrap' }}>
-            Director, songwriter, music producer · Real-time motion-tracking projected visuals
+            Producer, singer, songwriter, mixer; director, editor, creative technologist
           </p>
         </div>
       </div>
@@ -652,9 +643,7 @@ const ParentAndChild: Page = () => {
           style={{
             ...eyebrow,
           }}
-        >
-          New media art · 2024
-        </div>
+        >Projection-mapped mycelium building system and biosculpture</div>
         <div
           style={{
             display: 'flex',
@@ -663,8 +652,8 @@ const ParentAndChild: Page = () => {
             gap: 40,
           }}
         >
-          <h2 style={{ ...display, fontSize: 96 }}>Parent and Child</h2>
-          <p style={{ ...caption, whiteSpace: 'nowrap' }}>Mycelium building system & biosculpture · Projection-mapped wall text</p>
+          <h2 style={{ ...display, fontSize: 96 }}>Parent & Child</h2>
+          <p style={{ ...caption, whiteSpace: 'nowrap' }}>{'Designer & fabricator'}</p>
         </div>
       </div>
 
@@ -808,9 +797,7 @@ const Orion: Page = () => (
         style={{
           ...eyebrow,
         }}
-      >
-        Product &amp; UX design · 2026
-      </div>
+      >Expressive outing planner app · product/UX designer</div>
       <h2 style={{ ...display, fontSize: 96 }}>Orion</h2>
       <p
         style={{
@@ -820,10 +807,7 @@ const Orion: Page = () => (
           lineHeight: 1.5,
           maxWidth: 880,
         }}
-      >
-        A routing app where personalization emerges from your exploration patterns. Quests, not
-        points. Off-track suggestions. Social identity through where you go.
-      </p>
+      >{'A creative routing app that reframes multi-stop outing planning as expressive, spontaneous quests. Orion blends maps, taste, and social identity into a single intuitive experience, designed to support creativity rather than suppress it. \n\n'}</p>
       {/* Three additional phone mockups beneath the text. Sized so their
           bottoms align with the hero phone's bottom (y=997) for grid unity. */}
       <div
@@ -899,9 +883,7 @@ const SelectedWork: Page = () => {
         }}
       >
         <h2 style={{ ...display, fontSize: 96 }}>Selected Work</h2>
-        <span style={{ ...caption, alignSelf: 'flex-end', paddingBottom: 12 }}>
-          Films · Music videos · Sound design · Commercial
-        </span>
+        <span style={{ ...caption, alignSelf: 'flex-end', paddingBottom: 12 }}>Director, DP, editor, sound designer, motion designer, prompt engineer</span>
       </div>
 
       {/* Wall: 2×2 left + portrait right */}
@@ -920,19 +902,19 @@ const SelectedWork: Page = () => {
       >
         <div style={tile}>
           <ActiveVideo src={aboutMontage} muted loop playsInline style={cover} />
-          <div style={tileLabel}>Hearts · Music Video</div>
+          <div style={tileLabel}>Hearts Music Video · Nate Zucker</div>
         </div>
         <div style={tile}>
           <ActiveVideo src={fogerty} muted loop playsInline style={cover} />
-          <div style={tileLabel}>John Fogerty Tour Open · Radio City</div>
+          <div style={tileLabel}>{'Radio City Tour Open · John Fogerty '}</div>
         </div>
         <div style={{ ...tile, gridRow: 'span 2' }}>
           <ActiveVideo src={eataly} muted loop playsInline style={cover} />
-          <div style={tileLabel}>Eataly & Lurisia · Social Content</div>
+          <div style={tileLabel}>Paid social content · Eataly & Lurisia</div>
         </div>
         <div style={tile}>
           <ActiveVideo src={kiss} muted loop playsInline style={cover} />
-          <div style={tileLabel}>Kiss · Gabby Start</div>
+          <div style={tileLabel}>Kiss Music Video · Gabby Start</div>
         </div>
         <div style={tile}>
           <ActiveVideo src={sso} muted loop playsInline style={cover} />
@@ -974,14 +956,26 @@ const Close: Page = () => (
           maxWidth: 980,
           lineHeight: 1.5,
           fontStyle: 'normal',
+          textWrap: 'pretty' as const,
         }}
-      >{'I\'m looking to talk with people working at the edges of creative technology, multimedia art, and tools for music and film. Open to a variety of opportunities. '}</p>
+      >
+        Looking to meet people at the intersection of music, design, and creative technology.
+        Introductions welcome.
+      </p>
     </div>
 
-    {/* Right — Google news */}
+    {/* Right — Google news. Absolutely positioned so "Creative at" lines up
+        vertically with the first line of the left-column body paragraph.
+        Left col body-para first line sits at ~y=576 (left block centered in
+        canvas; QR/URL row ~140 tall + 32 margin = paragraph top offset 172
+        within the centered block). Logo height 180 + 36 gap to text =
+        place logo top at 576 − 216 = 360. */}
     <div
       style={{
-        flex: '0 0 460px',
+        position: 'absolute',
+        right: 100,
+        top: 380,
+        width: 460,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -1001,8 +995,10 @@ const Close: Page = () => (
           letterSpacing: '-0.01em',
         }}
       >
-        <div style={{ color: '#0a0a0a', fontWeight: 500, fontSize: 26 }}>Google Creative Lab</div>
-        <div style={{ marginTop: 6 }}>Creative</div>
+        <div style={{ fontSize: 22, fontWeight: 400, marginBottom: 6 }}>Creative at</div>
+        <div style={{ color: '#0a0a0a', fontWeight: 500, fontSize: 32, lineHeight: 1.05 }}>
+          Google Creative Lab
+        </div>
       </div>
     </div>
 
